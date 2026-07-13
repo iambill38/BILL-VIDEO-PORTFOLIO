@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill.Worldwide - Welcome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #050505;
+            --bg-card: #101010;
+            --border: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --accent: #c0c0c0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #050505 0%, #1a1a1a 100%);
+            z-index: -2;
+        }
+
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(25px, 25px); }
+        }
+
+        .welcome-container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(16, 16, 16, 0.7);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.6s ease-out;
+            text-align: center;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(192, 192, 192, 0.1);
+        }
+
+        input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .enter-btn {
+            width: 100%;
+            padding: 0.85rem;
+            background: var(--accent);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .enter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(192, 192, 192, 0.2);
+        }
+
+        .enter-btn:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .welcome-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+
+    <div class="welcome-container">
+        <div class="logo">Bill.Worldwide</div>
+        <h1>ENTER SECRET CODE:</h1>
+        <p>to explore the different world</p>
+
+        <form id="welcomeForm">
+            <div class="input-group">
+                <input 
+                    type="password" 
+                    id="codeInput" 
+                    placeholder="ENTER CODE HERE"
+                    required
+                    autofocus
+                >
+            </div>
+            <button type="submit" class="enter-btn">Enter</button>
+            <div id="errorMsg" style="display: none; color: #ff6b6b; font-size: 0.85rem; margin-top: 1rem; background: rgba(255, 107, 107, 0.1); padding: 0.75rem; border-radius: 6px; border-left: 2px solid #ff6b6b;">
+                Incorrect code. Try again.
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('welcomeForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const code = document.getElementById('codeInput').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (code === '') {
+                alert('Please enter the code');
+                return;
+            }
+
+            // Check if code matches
+            if (code === 'unlocked') {
+                // Store in session
+                sessionStorage.setItem('billworldwideAccess', 'true');
+                errorMsg.style.display = 'none';
+                
+                // Redirect to main page
+                window.location.href = 'BILL.WORLDWIDECOM.html';
+            } else {
+                // Show error message
+                errorMsg.style.display = 'block';
+                document.getElementById('codeInput').value = '';
+                document.getElementById('codeInput').focus();
+            }
+        });
+    </script>
+</body>
+</html>
