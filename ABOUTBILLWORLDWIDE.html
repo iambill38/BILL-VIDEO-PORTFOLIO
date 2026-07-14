@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - Bill.Worldwide</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
     <style>
         * {
             margin: 0;
@@ -37,7 +36,6 @@
             overflow-x: hidden;
         }
 
-        /* Animated Background */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -66,14 +64,13 @@
             50% { transform: translate(25px, 25px); }
         }
 
-        /* Navigation */
         nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            padding: 2rem;
+            padding: clamp(1rem, 5vw, 2rem);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -90,7 +87,7 @@
 
         .logo {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
+            font-size: clamp(1.1rem, 5vw, 1.5rem);
             font-weight: 700;
             letter-spacing: -0.5px;
             text-decoration: none;
@@ -99,14 +96,14 @@
 
         .nav-links {
             display: flex;
-            gap: 3rem;
+            gap: clamp(1.5rem, 3vw, 3rem);
             list-style: none;
         }
 
         .nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: clamp(0.8rem, 2vw, 0.95rem);
             transition: color 0.3s ease;
         }
 
@@ -114,98 +111,163 @@
             color: var(--accent);
         }
 
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-left: auto;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
         @media (max-width: 768px) {
-            nav {
-                padding: 1.5rem;
+            .hamburger {
+                display: flex;
             }
 
             .nav-links {
-                gap: 1.5rem;
-                font-size: 0.85rem;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                gap: 0;
+                background: rgba(5, 5, 5, 0.95);
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid var(--border);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
             }
 
-            .logo {
-                font-size: 1.2rem;
+            .nav-links.active {
+                max-height: 500px;
+            }
+
+            .nav-links li {
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 1rem 1.5rem;
             }
         }
 
-        /* Hero Section */
         .hero {
-            min-height: 60vh;
+            min-height: clamp(50vh, 70vh, 100vh);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
-            margin-top: 80px;
+            padding: clamp(1.5rem, 5vw, 2rem);
+            margin-top: clamp(50px, 12vw, 80px);
             position: relative;
             text-align: center;
         }
 
         .hero h1 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-size: clamp(1.75rem, 7vw, 4rem);
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: clamp(0.75rem, 3vw, 1rem);
             letter-spacing: -1px;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: clamp(0.95rem, 4vw, 1.2rem);
             color: var(--text-secondary);
             max-width: 700px;
             margin: 0 auto;
+            padding: 0 clamp(1rem, 5vw, 2rem);
+            line-height: 1.5;
         }
 
-        /* Sections */
         section {
-            padding: 6rem 2rem;
+            padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 2rem);
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .section-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: clamp(1.5rem, 5vw, 3rem);
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
             letter-spacing: -0.5px;
         }
 
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
+        /* About Image Container */
+        .about-image-wrapper {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto clamp(2rem, 5vw, 3rem);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            aspect-ratio: 4 / 3;
         }
 
-        /* Story Section */
+        .about-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .about-image-wrapper:hover img {
+            transform: scale(1.02);
+        }
+
         .story-content {
             background: rgba(16, 16, 16, 0.5);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 3rem;
-            margin-top: 2rem;
+            padding: clamp(1.5rem, 5vw, 3rem);
+            margin-top: clamp(1.5rem, 4vw, 2rem);
         }
 
         .story-content p {
-            font-size: 1.05rem;
+            font-size: clamp(0.95rem, 3vw, 1.05rem);
             color: var(--text-secondary);
-            margin-bottom: 1.5rem;
+            margin-bottom: clamp(1rem, 2vw, 1.5rem);
             line-height: 1.8;
         }
 
-        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            gap: clamp(1.5rem, 3vw, 2rem);
+            margin-top: clamp(2rem, 4vw, 3rem);
         }
 
         .stat-card {
             background: rgba(16, 16, 16, 0.6);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 2rem;
+            padding: clamp(1.5rem, 3vw, 2rem);
             text-align: center;
             transition: all 0.3s ease;
         }
@@ -218,30 +280,29 @@
 
         .stat-number {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 5vw, 2.5rem);
             font-weight: 700;
             color: var(--accent);
             margin-bottom: 0.5rem;
         }
 
         .stat-label {
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2vw, 1rem);
             color: var(--text-secondary);
         }
 
-        /* Skills Grid */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            gap: clamp(1.5rem, 3vw, 2rem);
+            margin-top: clamp(2rem, 4vw, 2rem);
         }
 
         .skill-card {
             background: rgba(16, 16, 16, 0.6);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 2rem;
+            padding: clamp(1.5rem, 3vw, 2rem);
             transition: all 0.3s ease;
         }
 
@@ -258,37 +319,37 @@
             justify-content: center;
         }
 
-        .lucide-icon {
-            width: 2.5rem;
-            height: 2.5rem;
+        .skill-icon svg {
+            width: clamp(2rem, 4vw, 2.5rem);
+            height: clamp(2rem, 4vw, 2.5rem);
             color: var(--accent);
         }
 
         .skill-card h3 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             margin-bottom: 0.5rem;
             font-weight: 600;
         }
 
         .skill-card p {
-            font-size: 0.95rem;
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
             color: var(--text-secondary);
+            line-height: 1.6;
         }
 
-        /* Values Grid */
         .values-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: clamp(1.5rem, 3vw, 2rem);
+            margin-top: clamp(2rem, 4vw, 2rem);
         }
 
         .value-card {
             background: linear-gradient(135deg, rgba(192, 192, 192, 0.05) 0%, rgba(160, 160, 160, 0.02) 100%);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 2.5rem 2rem;
+            padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 2rem);
             text-align: center;
             transition: all 0.3s ease;
         }
@@ -300,7 +361,7 @@
 
         .value-number {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 3rem;
+            font-size: clamp(2.5rem, 6vw, 3rem);
             font-weight: 700;
             color: var(--accent);
             margin-bottom: 0.5rem;
@@ -309,48 +370,54 @@
 
         .value-card h3 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             margin-bottom: 0.5rem;
             font-weight: 600;
         }
 
         .value-card p {
-            font-size: 0.95rem;
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
             color: var(--text-secondary);
             line-height: 1.6;
         }
 
-        /* CTA Section */
         .cta-section {
             background: linear-gradient(135deg, rgba(192, 192, 192, 0.08) 0%, rgba(160, 160, 160, 0.03) 100%);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 4rem 2rem;
+            padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 2rem);
             text-align: center;
-            margin-top: 4rem;
+            margin-top: clamp(3rem, 6vw, 4rem);
         }
 
         .cta-section h2 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 1rem;
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            margin-bottom: clamp(0.75rem, 2vw, 1rem);
         }
 
         .cta-section p {
-            font-size: 1.1rem;
+            font-size: clamp(0.95rem, 3vw, 1.1rem);
             color: var(--text-secondary);
-            margin-bottom: 2rem;
+            margin-bottom: clamp(1.5rem, 3vw, 2rem);
         }
 
         .btn {
             display: inline-block;
-            padding: 1rem 2.5rem;
+            padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2.5rem);
             background: var(--accent);
             color: var(--bg-dark);
             text-decoration: none;
             border-radius: 8px;
             font-weight: 600;
+            font-size: clamp(0.9rem, 2vw, 1rem);
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn:hover {
@@ -358,9 +425,8 @@
             box-shadow: 0 10px 30px rgba(192, 192, 192, 0.2);
         }
 
-        /* Footer */
         footer {
-            padding: 3rem 2rem;
+            padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 5vw, 2rem);
             border-top: 1px solid var(--border);
             text-align: center;
             background: rgba(16, 16, 16, 0.3);
@@ -369,21 +435,12 @@
         footer p {
             color: var(--text-secondary);
             margin-bottom: 0.5rem;
+            font-size: clamp(0.85rem, 2vw, 1rem);
         }
 
-        @media (max-width: 768px) {
-            section {
-                padding: 4rem 1.5rem;
-            }
-
-            .story-content {
-                padding: 2rem;
-            }
-
-            .stats-grid,
-            .skills-grid,
-            .values-grid {
-                grid-template-columns: 1fr;
+        @media (max-width: 480px) {
+            .about-image-wrapper {
+                aspect-ratio: 3 / 2;
             }
         }
     </style>
@@ -391,21 +448,23 @@
 <body>
     <div class="animated-bg"></div>
 
-    <!-- Navigation -->
-   <nav id="navbar">
-        <a href="index.html" class="logo">BILL.WORLDWIDE</a>
-        <ul class="nav-links">
+    <nav id="navbar">
+        <a href="BILL.WORLDWIDECOM.html" class="logo">BILL.WORLDWIDE</a>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
             <li><a href="WELCOMEBILLWORLDWIDE.html">HOME</a></li>
             <li><a href="https://www.instagram.com/iambill38/">INSTAGRAM</a></li>
             <li><a href="https://www.youtube.com/channel/UCEGbV_e-_jAzwsXWWcLuidA">YOUTUBE</a></li>
             <li><a href="https://www.instagram.com/_bybill00/">PHOTOGRAPHY</a></li>
-            <li><a href="ABOUTBILLWORLDWIDE.html">ABOUT </a></li>
-            <li><a href="WELCOMEBILLWORLDWIDE.html">Contact</a></li>
+            <li><a href="ABOUTBILLWORLDWIDE.html">ABOUT</a></li>
+            <li><a href="WELCOMEBILLWORLDWIDE.html">CONTACT</a></li>
         </ul>
     </nav>
-    </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div>
             <h1>About Bill</h1>
@@ -413,29 +472,28 @@
         </div>
     </section>
 
-    <!-- Story Section -->
     <section>
         <h2 class="section-title">The Story</h2>
+        
+        <!-- ABOUT IMAGE -->
+        <div class="about-image-wrapper">
+            <img src="Open.jpg" alt="Bill - Creative Director and Videographer" loading="lazy">
+        </div>
+
         <div class="story-content">
             <p>
-                Bill is a South African creative director and videographer with a passion for cinematic storytelling. 
-                With over a decade of experience in visual production, Bill has crafted compelling narratives through 
-                music videos, commercial campaigns, and fashion films that resonate with audiences worldwide.
+                Bill is a Congolais creative director and videographer based in 
+                Cape Town with over a decade of experience in cinematic storytelling.
+                 Specializing in music videos, commercial campaigns, and fashion films,
+                  he blends technical expertise with artistic vision to create compelling visual experiences. 
+                  From concept to final color grading, Bill meticulously orchestrates every element of production. 
+                  His work spans music, fashion, luxury brands, and entertainment. 
+                  Each project is a testament to creative excellence!
             </p>
-            <p>
-                What started as a personal fascination with motion and light evolved into a professional commitment 
-                to creating visual experiences that inspire, captivate, and transform. Every project is approached with 
-                meticulous attention to detail, blending technical expertise with artistic vision.
-            </p>
-            <p>
-                From concept development to final color grading, Bill orchestrates every element of production to 
-                ensure the final piece not only meets but exceeds expectations. The work spans across music, fashion, 
-                luxury brands, and entertainment—each project a testament to creative excellence.
-            </p>
+           
         </div>
     </section>
 
-    <!-- Stats Section -->
     <section>
         <h2 class="section-title">By The Numbers</h2>
         <div class="stats-grid">
@@ -448,54 +506,52 @@
                 <div class="stat-label">International Clients</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">100M+</div>
+                <div class="stat-number">100k+</div>
                 <div class="stat-label">Total Views</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">15+</div>
+                <div class="stat-number">10+</div>
                 <div class="stat-label">Years Experience</div>
             </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
     <section>
         <h2 class="section-title">Core Competencies</h2>
         <div class="skills-grid">
             <div class="skill-card">
-                <div class="skill-icon"><svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 5l3 3m0 0l-3 3m3-3l-6 0m6-6l3 3m0 0l-3 3m3-3l6 0"/></svg></div>
+                <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 5l3 3m0 0l-3 3m3-3l-6 0m6-6l3 3m0 0l-3 3m3-3l6 0"/></svg></div>
                 <h3>Cinematography</h3>
                 <p>Professional-grade camera work with cinematic color science and visual storytelling expertise</p>
             </div>
             <div class="skill-card">
-                <div class="skill-icon"><svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="18" cy="12" r="1"/></svg></div>
+                <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="18" cy="12" r="1"/></svg></div>
                 <h3>Editing & Pacing</h3>
                 <p>Precision editing that controls rhythm, emotion, and narrative flow in every frame</p>
             </div>
             <div class="skill-card">
-                <div class="skill-icon"><svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><path d="M12 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10"/></svg></div>
+                <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><path d="M12 7a5 5 0 1 0 0 10a5 5 0 0 0 0-10"/></svg></div>
                 <h3>Color Grading</h3>
                 <p>Advanced color correction and grading to achieve mood, atmosphere, and visual consistency</p>
             </div>
             <div class="skill-card">
-                <div class="skill-icon"><svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
                 <h3>Creative Direction</h3>
                 <p>Conceptualization and direction of visual projects from initial idea to final execution</p>
             </div>
             <div class="skill-card">
-                <div class="skill-icon"><svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13M9 9h12"/></svg></div>
+                <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13M9 9h12"/></svg></div>
                 <h3>Music Video Production</h3>
                 <p>Full-service music video production including concept, shooting, and post-production</p>
             </div>
             <div class="skill-card">
-                <div class="skill-icon"><svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+                <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
                 <h3>Photography</h3>
                 <p>Commercial and editorial photography spanning fashion, portraits, and lifestyle content</p>
             </div>
         </div>
     </section>
 
-    <!-- Values Section -->
     <section>
         <h2 class="section-title">Core Values</h2>
         <div class="values-grid">
@@ -522,7 +578,6 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
     <section>
         <div class="cta-section">
             <h2>Ready to Create Something Extraordinary?</h2>
@@ -531,7 +586,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <p>Bill.Worldwide</p>
         <p>&copy; 2026 All Rights Reserved</p>
@@ -539,7 +593,33 @@
     </footer>
 
     <script>
-        // Navbar scroll effect
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburgerBtn.addEventListener('click', () => {
+            hamburgerBtn.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            hamburgerBtn.setAttribute('aria-expanded', 
+                hamburgerBtn.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
+            );
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburgerBtn.classList.remove('active');
+                navLinks.classList.remove('active');
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('nav')) {
+                hamburgerBtn.classList.remove('active');
+                navLinks.classList.remove('active');
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
