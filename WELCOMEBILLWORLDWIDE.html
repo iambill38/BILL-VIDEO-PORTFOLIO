@@ -29,7 +29,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: clamp(1.5rem, 5vw, 2rem);
             position: relative;
             overflow: hidden;
         }
@@ -62,18 +62,6 @@
             50% { transform: translate(25px, 25px); }
         }
 
-        .welcome-container {
-            width: 100%;
-            max-width: 400px;
-            background: rgba(16, 16, 16, 0.7);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 3rem 2rem;
-            backdrop-filter: blur(10px);
-            animation: slideUp 0.6s ease-out;
-            text-align: center;
-        }
-
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -85,42 +73,58 @@
             }
         }
 
+        .welcome-container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(16, 16, 16, 0.7);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: clamp(1.5rem, 5vw, 3rem) clamp(1.25rem, 5vw, 2rem);
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.6s ease-out;
+            text-align: center;
+        }
+
         .logo {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 6vw, 2rem);
             font-weight: 700;
-            margin-bottom: 2rem;
+            margin-bottom: clamp(1.5rem, 4vw, 2rem);
             letter-spacing: -0.5px;
         }
 
         h1 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
+            font-size: clamp(1rem, 4vw, 1.5rem);
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: clamp(0.5rem, 2vw, 0.75rem);
+            letter-spacing: -0.3px;
+            word-break: break-word;
         }
 
         p {
             color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
+            margin-bottom: clamp(1.5rem, 5vw, 2rem);
+            font-size: clamp(0.85rem, 3vw, 0.95rem);
+            line-height: 1.5;
         }
 
         .input-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
         }
 
         input {
             width: 100%;
-            padding: 0.85rem 1rem;
+            padding: clamp(0.75rem, 3vw, 0.85rem) clamp(0.85rem, 3vw, 1rem);
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
             border-radius: 8px;
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 4vw, 1rem);
             transition: all 0.3s ease;
             text-align: center;
+            letter-spacing: 0.5px;
         }
 
         input:focus {
@@ -136,16 +140,21 @@
 
         .enter-btn {
             width: 100%;
-            padding: 0.85rem;
+            padding: clamp(0.75rem, 3vw, 0.85rem);
             background: var(--accent);
             color: var(--bg-dark);
             border: none;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 4vw, 1rem);
             font-weight: 600;
             font-family: 'Inter', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.3px;
         }
 
         .enter-btn:hover {
@@ -157,17 +166,40 @@
             transform: translateY(0);
         }
 
+        #errorMsg {
+            display: none;
+            color: #ff6b6b;
+            font-size: clamp(0.75rem, 3vw, 0.85rem);
+            margin-top: clamp(0.75rem, 3vw, 1rem);
+            background: rgba(255, 107, 107, 0.1);
+            padding: clamp(0.5rem, 2vw, 0.75rem);
+            border-radius: 6px;
+            border-left: 2px solid #ff6b6b;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
         @media (max-width: 480px) {
-            .welcome-container {
-                padding: 2rem 1.5rem;
+            body {
+                padding: 1rem;
             }
 
-            .logo {
-                font-size: 1.5rem;
+            .welcome-container {
+                border-radius: 10px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .welcome-container {
+                padding: clamp(1.25rem, 4vw, 2.5rem) clamp(1rem, 4vw, 1.75rem);
             }
 
             h1 {
-                font-size: 1.2rem;
+                margin-bottom: 0.35rem;
+            }
+
+            p {
+                margin-bottom: 1.25rem;
             }
         }
     </style>
@@ -188,10 +220,11 @@
                     placeholder="ENTER CODE HERE"
                     required
                     autofocus
+                    autocomplete="off"
                 >
             </div>
             <button type="submit" class="enter-btn">Enter</button>
-            <div id="errorMsg" style="display: none; color: #ff6b6b; font-size: 0.85rem; margin-top: 1rem; background: rgba(255, 107, 107, 0.1); padding: 0.75rem; border-radius: 6px; border-left: 2px solid #ff6b6b;">
+            <div id="errorMsg">
                 Incorrect code. Try again.
             </div>
         </form>
@@ -222,6 +255,13 @@
                 errorMsg.style.display = 'block';
                 document.getElementById('codeInput').value = '';
                 document.getElementById('codeInput').focus();
+            }
+        });
+
+        // Handle Enter key and mobile keyboard behavior
+        document.getElementById('codeInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('welcomeForm').dispatchEvent(new Event('submit'));
             }
         });
     </script>
